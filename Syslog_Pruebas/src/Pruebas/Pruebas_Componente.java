@@ -10,14 +10,29 @@ import objects.TransactionType;
 public class Pruebas_Componente {
 
 	public static void main(String[] args) throws SQLException {
+		// Como inicializar el componente correctamente
 		ConectorController a = new ConectorController();
+		// Listener del componente
 		QueryEvento evt = new QueryEvento();
 		a.addPropertyChangeListener(evt);
 
 		// Opciones del componente
+		// Permite seleccionar la base de datos (String bbddName)
 		a.setDatabase("forhonor");
+		// Permite introducir host i el puerto (String host, String port)
 		a.setHostSettings("localhost", "3306");
+		// Permite introducir el usuario y la contraseña (String userName, String
+		// password)
 		a.setCredentials("root", "");
+
+		/*
+		 * ejecutarQuery -> Permite ejecutar una query 
+		 * getResultsSelect -> Devuelve un ArrayList<String> 
+		 *con los registros de una sentencia Select pasada como
+		 * parametro
+		 * 
+		 * 
+		 */
 
 		// Para obtener los results de un select
 		ArrayList<String> tmp = a.getResultsSelect("SELECT * from users");
@@ -51,6 +66,21 @@ public class Pruebas_Componente {
 		a.ejecutarQuery("delete from bfplayer where user_id = 'ARNOLD_PRO'");
 
 		// Imprimimos reportes de las sentencias ejecutadas
+		/*
+		 * 	printReport -> printa por consola el reporte segun los datos especificados:
+		 *	(String bbddName, TransactionType tipo_consulta)
+		 *	(String bbddName, String userName)
+		 *	(String bbddName,String userName, TransactionType tipo_consulta)
+		 *	Printaran el reporte en caso que existan datos, en caso contrario, se printara un mensaje de error 
+		 *	conforme no hay datos
+		 *
+		 *	Tambien se ofrece la variedad de getReport -> Que devuelve un ArrayList<String>
+		 *	con los datos del reporte, separados llos campos por ';'
+		 *	Acepta como parametros:
+		 *	(String bbddName, TransactionType tipo_consulta)
+		 *	(String bbddName, String userName)
+		 *	(String bbddName,String userName, TransactionType tipo_consulta)
+		 */
 		System.out.println("\n\n\n\nPrintado de reporte de bbdd forhonor con query select");
 		a.printReport("forhonor", TransactionType.SELECT);
 
@@ -68,6 +98,9 @@ public class Pruebas_Componente {
 
 		System.out.println("\n\n\n\nPrintado de reporte de bbdd forhonor con query procedure");
 		a.printReport("forhonor", TransactionType.PROCEDURE);
+		
+		System.out.println("\n\n\n\nPrintado de reporte de bbdd forhonor con query Select i usuario root");
+		a.printReport("forhonor","root", TransactionType.SELECT);
 
 	}
 
